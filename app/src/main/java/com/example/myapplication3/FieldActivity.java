@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -34,7 +35,6 @@ public class FieldActivity extends AppCompatActivity {
         Button button32 = (Button) findViewById(R.id.button_32);
         Button button33 = (Button) findViewById(R.id.button_33);
 
-        Button right_button = (Button) findViewById(R.id.move_right);
         //Saving buttons in a table
         final Button[] btnTab=new Button[16];
         btnTab[0]=button00;
@@ -62,11 +62,22 @@ public class FieldActivity extends AppCompatActivity {
                 startGame(btnTab);
             }
         });
-        right_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        View view = (View) findViewById(R.id.swipe_view);
+        view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
+            public void onSwipeTop() {
+                Toast.makeText(FieldActivity.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+               // Toast.makeText(FieldActivity.this, "right", Toast.LENGTH_SHORT).show();
                 move_right(btnTab);
             }
+            public void onSwipeLeft() {
+                Toast.makeText(FieldActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(FieldActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
     public void move_right(Button[] btn){

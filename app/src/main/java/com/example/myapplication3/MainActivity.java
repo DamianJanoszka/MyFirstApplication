@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Roll your random number");
 
         Button button = (Button) findViewById(R.id.button_next);
-        Button rollButton = (Button)findViewById(R.id.rollButton);
+        Button rollButton = (Button) findViewById(R.id.rollButton);
         Button gameButton = (Button) findViewById(R.id.game_button);
         final TextView resultsTextView = (TextView) findViewById(R.id.resultTextView);
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
@@ -66,16 +66,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
     public void openGame() {
         Intent intent = new Intent(this, FieldActivity.class);
         startActivity(intent);
     }
-
     public void openActivity2(int value){
         Intent intent = new Intent(this, Activity2.class);
         intent.putExtra("resultValue", value);
         startActivityForResult(intent,1);
     }
-
 }

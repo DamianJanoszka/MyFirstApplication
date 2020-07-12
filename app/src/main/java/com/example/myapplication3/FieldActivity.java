@@ -65,17 +65,20 @@ public class FieldActivity extends AppCompatActivity {
         View view = (View) findViewById(R.id.swipe_view);
         view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
             public void onSwipeTop() {
-                Toast.makeText(FieldActivity.this, "top", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FieldActivity.this, "top", Toast.LENGTH_SHORT).show();
+                move_up(btnTab);
             }
             public void onSwipeRight() {
                // Toast.makeText(FieldActivity.this, "right", Toast.LENGTH_SHORT).show();
                 move_right(btnTab);
             }
             public void onSwipeLeft() {
-                Toast.makeText(FieldActivity.this, "left", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FieldActivity.this, "left", Toast.LENGTH_SHORT).show();
+                move_left(btnTab);
             }
             public void onSwipeBottom() {
-                Toast.makeText(FieldActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FieldActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+                move_down(btnTab);
             }
 
         });
@@ -86,6 +89,31 @@ public class FieldActivity extends AppCompatActivity {
             move_line_right(btn,2,i);
             move_line_right(btn,3,i);
             move_line_right(btn,4,i);
+        }
+    }
+    public void move_left(Button[] btn){
+        for(int i=3;i>=0;i--) {
+            move_line_left(btn,1,i);
+            move_line_left(btn,2,i);
+            move_line_left(btn,3,i);
+            move_line_left(btn,4,i);
+        }
+    }
+    public void move_up(Button[] btn){
+        for (int i = 0; i < 4; i++) {
+            move_line_up(btn,1,i);
+            move_line_up(btn,2,i);
+            move_line_up(btn,3,i);
+            move_line_up(btn,4,i);
+        }
+    }
+    public void move_down(Button[] btn) {
+        for (int i = 3; i >=0 ; i--) {
+            move_line_down(btn,1,i);
+            move_line_down(btn,2,i);
+            move_line_down(btn,3,i);
+            move_line_down(btn,4,i);
+
         }
     }
     public void startGame(Button[] btn){
@@ -105,6 +133,28 @@ public class FieldActivity extends AppCompatActivity {
     public void resetGame(Button[] btn){
         for(int i=0;i<16;i++){
             btn[i].setText("");
+        }
+    }
+    public void move_line_left(Button[] btn,int line, int i){
+        String tmp;
+        if (btn[(line*4-1)-i].getText().toString()!=""){
+            tmp=btn[(line*4-1)-i].getText().toString();
+            if(btn[(line*4-4)].getText().toString()=="") {
+                btn[(line*4-1)-i].setText("");
+                btn[(line*4-4)].setText(tmp);
+            }
+            else if(btn[(line*4-3)].getText().toString()==""){
+                btn[(line*4-1) - i].setText("");
+                btn[(line*4-3)].setText(tmp);
+            }
+            else if(btn[(line*4-2)].getText().toString()==""){
+                btn[(line*4-1) - i].setText("");
+                btn[(line*4-2)].setText(tmp);
+            }
+            else{
+                btn[(line*4-1) - i].setText("");
+                btn[(line*4-1)].setText(tmp);
+            }
         }
     }
     public void move_line_right(Button[] btn,int line, int i){
@@ -129,5 +179,51 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
     }
+    public void move_line_up(Button[] btn, int column, int i){
+        String tmp;
+        int col=column-1;
+        if (btn[i*4+col].getText().toString()!=""){
+            tmp=btn[i*4+col].getText().toString();
+            if(btn[0+col].getText().toString()=="") {
+                btn[i*4+col].setText("");
+                btn[col].setText(tmp);
+            }
+            else if(btn[4+col].getText().toString()==""){
+                btn[i*4+col].setText("");
+                btn[col+4].setText(tmp);
+            }
+            else if(btn[8+col].getText().toString()==""){
+                btn[i*4+col].setText("");
+                btn[col+8].setText(tmp);
+            }
+            else{
+                btn[i*4+col].setText("");
+                btn[col+12].setText(tmp);
+            }
+        }
+    }
+    public void move_line_down(Button[] btn, int column, int i){
+        String tmp;
+        int col=column-1;
+        if (btn[i*4+col].getText().toString()!="") {
+            tmp = btn[i * 4 + col].getText().toString();
+            if(btn[12+col].getText().toString()=="") {
+                btn[i*4+col].setText("");
+                btn[col+12].setText(tmp);
+            }
+            else if(btn[8+col].getText().toString()==""){
+                btn[i*4+col].setText("");
+                btn[col+8].setText(tmp);
+            }
+            else if(btn[4+col].getText().toString()==""){
+                btn[i*4+col].setText("");
+                btn[col+4].setText(tmp);
+            }
+            else{
+                btn[i*4+col].setText("");
+                btn[col].setText(tmp);
+            }
+        }
 
+    }
 }

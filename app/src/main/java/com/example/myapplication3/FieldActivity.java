@@ -156,27 +156,55 @@ public class FieldActivity extends AppCompatActivity {
                 btn[(line*4-1)].setText(tmp);
             }
         }
+        if(btn[0+(line-1)*4].getText().toString().equals(btn[1+(line-1)*4].getText().toString())&&btn[0+(line-1)*4].getText().toString()!=""){
+            btn[0+(line-1)*4].setText(String.valueOf(2*Integer.parseInt(btn[0+(line-1)*4].getText().toString())));
+            btn[1+(line-1)*4].setText(btn[2+(line-1)*4].getText().toString());
+            btn[2+(line-1)*4].setText(btn[3+(line-1)*4].getText().toString());
+        }
+        else if(btn[1+(line-1)*4].getText().toString().equals(btn[2+(line-1)*4].getText().toString())&&btn[1+(line-1)*4].getText().toString()!=""){
+            btn[1+(line-1)*4].setText(String.valueOf(2*Integer.parseInt(btn[1+(line-1)*4].getText().toString())));
+            btn[2+(line-1)*4].setText(btn[3+(line-1)*4].getText().toString());
+        }
+        else if(btn[2+(line-1)*4].getText().toString().equals(btn[3+(line-1)*4].getText().toString())&&btn[2+(line-1)*4].getText().toString()!=""){
+            btn[2+(line-1)*4].setText(String.valueOf(2*Integer.parseInt(btn[2+(line-1)*4].getText().toString())));
+        }
     }
     public void move_line_right(Button[] btn,int line, int i){
         String tmp;
-        if (btn[(line*4-1)-i].getText().toString()!=""){
+        if (btn[(line*4-1)-i].getText().toString()!=""&&i!=0){
             tmp=btn[(line*4-1)-i].getText().toString();
             if(btn[(line*4-1)].getText().toString()=="") {
                 btn[(line*4-1)-i].setText("");
                 btn[(line*4-1)].setText(tmp);
             }
             else if(btn[(line*4-2)].getText().toString()==""){
-                btn[(line*4-1) - i].setText("");
+               btn[(line*4-1) - i].setText("");
                 btn[(line*4-2)].setText(tmp);
             }
-            else if(btn[(line*4-3)].getText().toString()==""){
+            else if(btn[(line*4-3)].getText().toString()==""&&i!=1){
                 btn[(line*4-1) - i].setText("");
                 btn[(line*4-3)].setText(tmp);
             }
-            else{
+            else if(i!=1&&i!=2){
                 btn[(line*4-1) - i].setText("");
                 btn[(line*4-4)].setText(tmp);
             }
+        }
+        if(btn[3+i*4].getText().toString().equals(btn[2+i*4].getText().toString())&&btn[3+i*4].getText().toString()!=""){
+            btn[3+i*4].setText(String.valueOf(2*Integer.parseInt(btn[3+i*4].getText().toString())));
+            btn[2+i*4].setText(btn[1+i*4].getText().toString());
+            btn[1+i*4].setText(btn[0+i*4].getText().toString());
+            btn[0+i*4].setText("");
+
+        }
+        else if(btn[2+i*4].getText().toString().equals(btn[1+i*4].getText().toString())&&btn[2+i*4].getText().toString()!=""){
+            btn[2+i*4].setText(String.valueOf(2*Integer.parseInt(btn[2+i*4].getText().toString())));
+            btn[1+i*4].setText(btn[0+i*4].getText().toString());
+            btn[0+i*4].setText("");
+        }
+        else if(btn[1+i*4].getText().toString().equals(btn[0+i*4].getText().toString())&&btn[1+i*4].getText().toString()!=""){
+            btn[1+i*4].setText(String.valueOf(2*Integer.parseInt(btn[1+i*4].getText().toString())));
+            btn[0+i*4].setText("");
         }
     }
     public void move_line_up(Button[] btn, int column, int i){

@@ -1,9 +1,15 @@
 package com.example.myapplication3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MarginLayoutParamsCompat;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.print.PrintAttributes;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -55,7 +61,6 @@ public class FieldActivity extends AppCompatActivity {
         btnTab[15]=button33;
         //Rolling a start position of 2 first buttons with the value of 2
         startGame(btnTab);
-
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,15 +71,19 @@ public class FieldActivity extends AppCompatActivity {
         view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
             public void onSwipeTop() {
                 move_up(btnTab);
+                change_btn_color(btnTab);
             }
             public void onSwipeRight() {
                 move_right(btnTab);
+                change_btn_color(btnTab);
             }
             public void onSwipeLeft() {
                 move_left(btnTab);
+                change_btn_color(btnTab);
             }
             public void onSwipeBottom() {
                 move_down(btnTab);
+                change_btn_color(btnTab);
             }
 
         });
@@ -128,6 +137,7 @@ public class FieldActivity extends AppCompatActivity {
             btn[rand_first_number].setText("2");
             btn[rand_second_number].setText("2");
         }
+        change_btn_color(btn);
     }
     public void resetGame(Button[] btn){
         for(int i=0;i<16;i++){
@@ -294,6 +304,52 @@ public class FieldActivity extends AppCompatActivity {
                 btn[4 + i].setText(String.valueOf(2 * Integer.parseInt(btn[4 + i].getText().toString())));
                 btn[0 + i].setText("");
             }
+        }
+    }
+    public void change_btn_color(Button[] tab){
+        for (int i = 0; i < tab.length; i++) {
+            switch (tab[i].getText().toString()){
+                case "2":
+                    tab[i].setBackgroundColor(Color.parseColor("#c1efdd"));
+                    break;
+                case "4":
+                    tab[i].setBackgroundColor(Color.parseColor("#ade9d1"));
+                    break;
+                case"8":
+                    tab[i].setBackgroundColor(Color.parseColor("#84dfbb"));
+                    break;
+                case "16":
+                    tab[i].setBackgroundColor(Color.parseColor("#6fd9af"));
+                    break;
+                case "32":
+                    tab[i].setBackgroundColor(Color.parseColor("#5ad4a4"));
+                    break;
+                case "64":
+                    tab[i].setBackgroundColor(Color.parseColor("#46cf99"));
+                    break;
+                case "128":
+                    tab[i].setBackgroundColor(Color.parseColor("#32ca8e"));
+                    break;
+                case "256":
+                    tab[i].setBackgroundColor(Color.parseColor("#2db57f"));
+                    break;
+                case "512":
+                    tab[i].setBackgroundColor(Color.parseColor("#28a171"));
+                    break;
+                case "1024":
+                    tab[i].setBackgroundColor(Color.parseColor("#238d63"));
+                    break;
+                case "2048":
+                    tab[i].setBackgroundColor(Color.parseColor("#1e7955"));
+                    break;
+                default:
+                   // tab[i].setBackgroundColor(Color.LTGRAY);
+                    tab[i].setBackground(new ColorDrawable(Color.LTGRAY));
+
+
+
+            }
+
         }
     }
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.Random;
 
 public class FieldActivity extends AppCompatActivity {
@@ -71,18 +72,22 @@ public class FieldActivity extends AppCompatActivity {
         view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
             public void onSwipeTop() {
                 move_up(btnTab);
+                updateGame(btnTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeRight() {
                 move_right(btnTab);
+                updateGame(btnTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeLeft() {
                 move_left(btnTab);
+                updateGame(btnTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeBottom() {
                 move_down(btnTab);
+                updateGame(btnTab);
                 change_btn_color(btnTab);
             }
 
@@ -139,6 +144,23 @@ public class FieldActivity extends AppCompatActivity {
         }
         change_btn_color(btn);
     }
+    public void updateGame(Button[] btn){
+        boolean updatedField=true;
+        int  inf_loop_protection=0;
+        int rand;
+        while(updatedField){
+            rand = new Random().nextInt(16);
+            inf_loop_protection++;
+            if(btn[rand].getText().toString()==""){
+                btn[rand].setText("2");
+                updatedField=false;
+            }
+            else if(inf_loop_protection>50000){
+                Toast.makeText(FieldActivity.this, "Game over", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            }
+    }
     public void resetGame(Button[] btn){
         for(int i=0;i<16;i++){
             btn[i].setText("");
@@ -191,7 +213,7 @@ public class FieldActivity extends AppCompatActivity {
     public void move_line_up(Button[] btn, int column, int i){
         String tmp;
         int col=column-1;
-        if (btn[i*4+col].getText().toString()!=""){
+        if (btn[i*4+col].getText().toString()!=""&&i!=0){
             tmp=btn[i*4+col].getText().toString();
             if(btn[0+col].getText().toString()=="") {
                 btn[i*4+col].setText("");
@@ -201,11 +223,11 @@ public class FieldActivity extends AppCompatActivity {
                 btn[i*4+col].setText("");
                 btn[col+4].setText(tmp);
             }
-            else if(btn[8+col].getText().toString()==""){
+            else if(btn[8+col].getText().toString()==""&i!=1){
                 btn[i*4+col].setText("");
                 btn[col+8].setText(tmp);
             }
-            else{
+            else if (i!=1&&i!=2){
                 btn[i*4+col].setText("");
                 btn[col+12].setText(tmp);
             }
@@ -214,7 +236,7 @@ public class FieldActivity extends AppCompatActivity {
     public void move_line_down(Button[] btn, int column, int i){
         String tmp;
         int col=column-1;
-        if (btn[i*4+col].getText().toString()!="") {
+        if (btn[i*4+col].getText().toString()!=""&&i!=3) {
             tmp = btn[i * 4 + col].getText().toString();
             if(btn[12+col].getText().toString()=="") {
                 btn[i*4+col].setText("");
@@ -224,11 +246,11 @@ public class FieldActivity extends AppCompatActivity {
                 btn[i*4+col].setText("");
                 btn[col+8].setText(tmp);
             }
-            else if(btn[4+col].getText().toString()==""){
+            else if(btn[4+col].getText().toString()==""&&i!=2){
                 btn[i*4+col].setText("");
                 btn[col+4].setText(tmp);
             }
-            else{
+            else if (i!=2&&i!=1){
                 btn[i*4+col].setText("");
                 btn[col].setText(tmp);
             }

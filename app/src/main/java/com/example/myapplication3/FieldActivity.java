@@ -44,6 +44,7 @@ public class FieldActivity extends AppCompatActivity {
 
         //Saving buttons in a table
         final Button[] btnTab=new Button[16];
+        final String[] temp_valTab=new String[16];
         btnTab[0]=button00;
         btnTab[1]=button01;
         btnTab[2]=button02;
@@ -71,23 +72,27 @@ public class FieldActivity extends AppCompatActivity {
         View view = (View) findViewById(R.id.swipe_view);
         view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
             public void onSwipeTop() {
+                temp_value_tab(btnTab,temp_valTab);
                 move_up(btnTab);
-                updateGame(btnTab);
+                updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeRight() {
+                temp_value_tab(btnTab,temp_valTab);
                 move_right(btnTab);
-                updateGame(btnTab);
+                updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeLeft() {
+                temp_value_tab(btnTab,temp_valTab);
                 move_left(btnTab);
-                updateGame(btnTab);
+                updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
             }
             public void onSwipeBottom() {
+                temp_value_tab(btnTab,temp_valTab);
                 move_down(btnTab);
-                updateGame(btnTab);
+                updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
             }
 
@@ -112,6 +117,7 @@ public class FieldActivity extends AppCompatActivity {
         sum_numbers_left(btn);
     }
     public void move_up(Button[] btn){
+
         for (int i = 0; i < 4; i++) {
             move_line_up(btn,1,i);
             move_line_up(btn,2,i);
@@ -144,14 +150,15 @@ public class FieldActivity extends AppCompatActivity {
         }
         change_btn_color(btn);
     }
-    public void updateGame(Button[] btn){
+    public void updateGame(Button[] btn,String[] temp_btn){
         boolean updatedField=true;
         int  inf_loop_protection=0;
         int rand;
+        if(!same_tabs(btn, temp_btn)){
         while(updatedField){
             rand = new Random().nextInt(16);
             inf_loop_protection++;
-            if(btn[rand].getText().toString()==""){
+            if(btn[rand].getText().toString().equals("")){
                 btn[rand].setText("2");
                 updatedField=false;
             }
@@ -160,6 +167,7 @@ public class FieldActivity extends AppCompatActivity {
                 break;
             }
             }
+        }
     }
     public void resetGame(Button[] btn){
         for(int i=0;i<16;i++){
@@ -373,5 +381,24 @@ public class FieldActivity extends AppCompatActivity {
             }
 
         }
+    }
+    public void temp_value_tab(Button[] btn, String[] temp_valTab){
+        for (int i = 0; i < btn.length; i++) {
+            temp_valTab[i]=btn[i].getText().toString();
+        }
+    }
+    public boolean same_tabs(Button[] btn, String[] temp_valTab){
+        boolean same_tab=false;
+        for (int i = 0; i < btn.length; i++) {
+            if(btn[i].getText().toString()==temp_valTab[i]){
+                same_tab=true;
+            }
+            else
+            {
+                same_tab=false;
+                break;
+            }
+        }
+        return same_tab;
     }
 }

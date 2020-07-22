@@ -11,7 +11,10 @@ import android.print.PrintAttributes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.util.Random;
@@ -24,6 +27,8 @@ public class FieldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_field);
         setTitle("Game");
         //Declaration of buttons
+        final Button scoreBtn = (Button) findViewById(R.id.score);
+        scoreBtn.setText("0");
         Button resetBtn = (Button) findViewById(R.id.reset);
         Button button00 = (Button) findViewById(R.id.button_00);
         Button button01 = (Button) findViewById(R.id.button_01);
@@ -73,7 +78,7 @@ public class FieldActivity extends AppCompatActivity {
         view.setOnTouchListener(new OnSwipeTouchListener(FieldActivity.this) {
             public void onSwipeTop() {
                 temp_value_tab(btnTab,temp_valTab);
-                move_up(btnTab);
+                move_up(btnTab, scoreBtn);
                 updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
             }
@@ -97,6 +102,8 @@ public class FieldActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
     public void move_right(Button[] btn){
         for(int i=0;i<4;i++) {
@@ -116,7 +123,7 @@ public class FieldActivity extends AppCompatActivity {
         }
         sum_numbers_left(btn);
     }
-    public void move_up(Button[] btn){
+    public void move_up(Button[] btn, Button score_btn){
 
         for (int i = 0; i < 4; i++) {
             move_line_up(btn,1,i);
@@ -124,7 +131,7 @@ public class FieldActivity extends AppCompatActivity {
             move_line_up(btn,3,i);
             move_line_up(btn,4,i);
         }
-        sum_numbers_up(btn);
+        sum_numbers_up(btn,score_btn);
     }
     public void move_down(Button[] btn) {
         for (int i = 3; i >=0 ; i--) {
@@ -300,21 +307,28 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
     }
-    public void sum_numbers_up(Button[] btn){
+    public void sum_numbers_up(Button[] btn, Button score_btn){
+        int sum;
         for(int i=0;i<4;i++) {
             if (btn[0 + i].getText().toString().equals(btn[4 + i].getText().toString()) && btn[0 + i].getText().toString() != "") {
                 btn[0 + i].setText(String.valueOf(2 * Integer.parseInt(btn[0 + i].getText().toString())));
                 btn[4 + i].setText(btn[8 + i].getText().toString());
                 btn[8 + i].setText(btn[12 + i].getText().toString());
                 btn[12 + i].setText("");
+                sum=Integer.parseInt(score_btn.getText().toString())+Integer.parseInt(btn[0 + i].getText().toString());
+               score_btn.setText(String.valueOf(sum));
 
             } else if (btn[4 + i].getText().toString().equals(btn[8 + i].getText().toString()) && btn[4 + i].getText().toString() != "") {
                 btn[4+ i ].setText(String.valueOf(2 * Integer.parseInt(btn[4 + i].getText().toString())));
                 btn[8 + i].setText(btn[12 + i].getText().toString());
                 btn[12 + i].setText("");
+                sum=Integer.parseInt(score_btn.getText().toString())+Integer.parseInt(btn[4 + i].getText().toString());
+                score_btn.setText(String.valueOf(sum));
             } else if (btn[8 + i].getText().toString().equals(btn[12 + i].getText().toString()) && btn[8 + i].getText().toString() != "") {
                 btn[8 + i].setText(String.valueOf(2 * Integer.parseInt(btn[8 + i].getText().toString())));
                 btn[12 + i].setText("");
+                sum=Integer.parseInt(score_btn.getText().toString())+Integer.parseInt(btn[8 + i].getText().toString());
+                score_btn.setText(String.valueOf(sum));
             }
         }
     }
@@ -401,4 +415,5 @@ public class FieldActivity extends AppCompatActivity {
         }
         return same_tab;
     }
+
 }

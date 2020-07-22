@@ -42,6 +42,19 @@
                 android:text="Score: "
                 android:textSize="30sp" />
 
+            <Button
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginBottom="19dp"
+                android:layout_toEndOf="@+id/score_view"
+                android:layout_toRightOf="@+id/score_view"
+                android:background="#FDFCFC"
+                android:textSize="24sp" />
+
         </RelativeLayout>
 
         <LinearLayout

@@ -1,34 +1,46 @@
 package com.example.myapplication3;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MarginLayoutParamsCompat;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.print.PrintAttributes;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Field;
 import java.util.Random;
 
 public class FieldActivity extends AppCompatActivity {
-
+  /*  @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("HighScore_4", highScore_number);
+        editor.commit();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        highScore_number = sharedPref.getInt("HighScore_4", 6);
+    }
+*/
+    int highScore_number; //ta wartosc jest nadpisywana i wyskakuje wartosc 0 w apce
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field);
         setTitle("Game");
+
         //Declaration of buttons
         final Button scoreBtn = (Button) findViewById(R.id.score);
+        final Button bestBtn = (Button) findViewById(R.id.bestScore);
         scoreBtn.setText("0");
+        //bestBtn.setText(String.valueOf(highScore_number));
         Button resetBtn = (Button) findViewById(R.id.reset);
         Button button00 = (Button) findViewById(R.id.button_00);
         Button button01 = (Button) findViewById(R.id.button_01);
@@ -67,11 +79,11 @@ public class FieldActivity extends AppCompatActivity {
         btnTab[14]=button32;
         btnTab[15]=button33;
         //Rolling a start position of 2 first buttons with the value of 2
-        startGame(btnTab,scoreBtn);
+        startGame(btnTab,scoreBtn,bestBtn);
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startGame(btnTab,scoreBtn);
+                startGame(btnTab,scoreBtn,bestBtn);
             }
         });
         View view = (View) findViewById(R.id.swipe_view);
@@ -81,29 +93,48 @@ public class FieldActivity extends AppCompatActivity {
                 move_up(btnTab, scoreBtn);
                 updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
+                bestScore(scoreBtn,bestBtn);
             }
             public void onSwipeRight() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_right(btnTab, scoreBtn);
                 updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
+                bestScore(scoreBtn,bestBtn);
             }
             public void onSwipeLeft() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_left(btnTab, scoreBtn);
                 updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
+                bestScore(scoreBtn,bestBtn);
             }
             public void onSwipeBottom() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_down(btnTab, scoreBtn);
                 updateGame(btnTab,temp_valTab);
                 change_btn_color(btnTab);
+                bestScore(scoreBtn,bestBtn);
             }
 
         });
 
 
+
+
+    }
+
+
+
+    public void bestScore(Button score, Button bestScore){
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+        if(Integer.parseInt(score.getText().toString())>=Integer.parseInt(bestScore.getText().toString())){
+            bestScore.setText(score.getText().toString());
+           highScore_number=Integer.parseInt(bestScore.getText().toString());
+            editor.putInt("HighScore_4", highScore_number);
+            editor.commit();
+        }
     }
     public void move_right(Button[] btn, Button  score_btn){
         for(int i=0;i<4;i++) {
@@ -142,8 +173,11 @@ public class FieldActivity extends AppCompatActivity {
         }
         sum_numbers_down(btn, score_btn);
     }
-    public void startGame(Button[] btn, Button score_btn){
+    public void startGame(Button[] btn, Button score_btn, Button bestBtn){
         resetGame(btn, score_btn);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        highScore_number = sharedPref.getInt("HighScore_4", 6);
+        bestBtn.setText(String.valueOf(highScore_number));
         int rand_first_number = new Random().nextInt(16);
         int rand_second_number = new Random().nextInt(16);
         if(rand_first_number!=rand_second_number){

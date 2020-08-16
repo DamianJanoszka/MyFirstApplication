@@ -14,21 +14,6 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class FieldActivity extends AppCompatActivity {
-  /*  @Override
-    protected void onPause() {
-        super.onPause();
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("HighScore_4", highScore_number);
-        editor.commit();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        highScore_number = sharedPref.getInt("HighScore_4", 6);
-    }
-*/
     int highScore_number; //ta wartosc jest nadpisywana i wyskakuje wartosc 0 w apce
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +24,8 @@ public class FieldActivity extends AppCompatActivity {
         //Declaration of buttons
         final Button scoreBtn = (Button) findViewById(R.id.score);
         final Button bestBtn = (Button) findViewById(R.id.bestScore);
+        final View swipe = (View) findViewById(R.id.swipe_view);
         scoreBtn.setText("0");
-        //bestBtn.setText(String.valueOf(highScore_number));
         Button resetBtn = (Button) findViewById(R.id.reset);
         Button button00 = (Button) findViewById(R.id.button_00);
         Button button01 = (Button) findViewById(R.id.button_01);
@@ -79,11 +64,11 @@ public class FieldActivity extends AppCompatActivity {
         btnTab[14]=button32;
         btnTab[15]=button33;
         //Rolling a start position of 2 first buttons with the value of 2
-        startGame(btnTab,scoreBtn,bestBtn);
+        startGame(btnTab,scoreBtn,bestBtn,swipe);
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startGame(btnTab,scoreBtn,bestBtn);
+                startGame(btnTab,scoreBtn,bestBtn,swipe);
             }
         });
         View view = (View) findViewById(R.id.swipe_view);
@@ -91,30 +76,34 @@ public class FieldActivity extends AppCompatActivity {
             public void onSwipeTop() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_up(btnTab, scoreBtn);
-                updateGame(btnTab,temp_valTab);
+                updateGame(btnTab,temp_valTab,swipe);
                 change_btn_color(btnTab);
                 bestScore(scoreBtn,bestBtn);
+                check_game_over(temp_valTab,swipe);
             }
             public void onSwipeRight() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_right(btnTab, scoreBtn);
-                updateGame(btnTab,temp_valTab);
+                updateGame(btnTab,temp_valTab, swipe);
                 change_btn_color(btnTab);
                 bestScore(scoreBtn,bestBtn);
+                check_game_over(temp_valTab,swipe);
             }
             public void onSwipeLeft() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_left(btnTab, scoreBtn);
-                updateGame(btnTab,temp_valTab);
+                updateGame(btnTab,temp_valTab,swipe);
                 change_btn_color(btnTab);
                 bestScore(scoreBtn,bestBtn);
+                check_game_over(temp_valTab,swipe);
             }
             public void onSwipeBottom() {
                 temp_value_tab(btnTab,temp_valTab);
                 move_down(btnTab, scoreBtn);
-                updateGame(btnTab,temp_valTab);
+                updateGame(btnTab,temp_valTab,swipe);
                 change_btn_color(btnTab);
                 bestScore(scoreBtn,bestBtn);
+                check_game_over(temp_valTab,swipe);
             }
 
         });
@@ -173,7 +162,8 @@ public class FieldActivity extends AppCompatActivity {
         }
         sum_numbers_down(btn, score_btn);
     }
-    public void startGame(Button[] btn, Button score_btn, Button bestBtn){
+    public void startGame(Button[] btn, Button score_btn, Button bestBtn,View swipe_view){
+        swipe_view.setVisibility(View.VISIBLE);
         resetGame(btn, score_btn);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         highScore_number = sharedPref.getInt("HighScore_4", 6);
@@ -191,20 +181,17 @@ public class FieldActivity extends AppCompatActivity {
         }
         change_btn_color(btn);
     }
-    public void updateGame(Button[] btn,String[] temp_btn){
+    public void updateGame(Button[] btn,String[] temp_btn, View swipe){
         boolean updatedField=true;
-        int  inf_loop_protection=0;
         int rand;
         if(!same_tabs(btn, temp_btn)){
         while(updatedField){
             rand = new Random().nextInt(16);
-            inf_loop_protection++;
             if(btn[rand].getText().toString().equals("")){
                 btn[rand].setText("2");
                 updatedField=false;
             }
-            else if(inf_loop_protection>50000){
-                Toast.makeText(FieldActivity.this, "Game over", Toast.LENGTH_SHORT).show();
+            else if(check_game_over(temp_btn,swipe)){
                 break;
             }
             }
@@ -442,7 +429,6 @@ public class FieldActivity extends AppCompatActivity {
                     tab[i].setBackgroundColor(Color.parseColor("#1e7955"));
                     break;
                 default:
-                   // tab[i].setBackgroundColor(Color.LTGRAY);
                     tab[i].setBackground(new ColorDrawable(Color.LTGRAY));
 
 
@@ -470,5 +456,48 @@ public class FieldActivity extends AppCompatActivity {
         }
         return same_tab;
     }
+    public boolean check_game_over(String[] temp_valTab, View swipe_view){
+        boolean game_over=false;
+        int control_number=0;
+        for (int i = 0; i < 3; i++) {
+            if(temp_valTab[i].equals("")||temp_valTab[i]==temp_valTab[i+1]){
+                control_number=0;
+                break;}
+            else if(temp_valTab[i+4].equals("")||temp_valTab[i+4]==temp_valTab[i+5]){
+                control_number=0;
+                break;}
+            else if(temp_valTab[i+8].equals("")||temp_valTab[i+8]==temp_valTab[i+9]){
+                control_number=0;
+                break;}
+            else if(temp_valTab[i+12].equals("")||temp_valTab[i+12]==temp_valTab[i+13]){
+                control_number=0;
+                break;}
+            else if(temp_valTab[3+4*i].equals("")||temp_valTab[3+4*(i+1)].equals("")){
+                control_number=0;
+                break;
+            }
+            else if(temp_valTab[i].equals(temp_valTab[i+4])){
+                control_number=0;
+                break;}
+            else if(temp_valTab[i+4].equals(temp_valTab[i+8])){
+                control_number=0;
+                break;}
+            else if(temp_valTab[i+8].equals(temp_valTab[i+12])){
+                control_number=0;
+                break;}
+            else if(temp_valTab[3+4*i].equals(temp_valTab[3+(4*(i+1))])){
+                control_number=0;
+                break;}
+            else{
+                control_number++;
 
+            }
+        }
+        if(control_number==3){
+            swipe_view.setVisibility(View.INVISIBLE);
+            Toast.makeText(FieldActivity.this, "Game over", Toast.LENGTH_SHORT).show();
+            game_over=true;}
+        return game_over;
+
+}
 }

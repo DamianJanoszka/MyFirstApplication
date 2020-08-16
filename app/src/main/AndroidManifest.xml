@@ -12,9 +12,6 @@
         <activity
             android:name=".FieldActivity"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".Activity2"
-            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

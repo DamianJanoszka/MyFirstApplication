@@ -1,15 +1,19 @@
 package com.example.myapplication3;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import java.util.Random;
 
@@ -123,7 +127,7 @@ public class FieldActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         if(score_number>=highScore_number){
         editor.putInt("BestScore", score_number);
-        editor.putString("PlayerName", "Player");
+        editor.putString("PlayerName", playerName);
         editor.apply();
         }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -517,8 +521,32 @@ public class FieldActivity extends AppCompatActivity {
             swipe.setVisibility(View.INVISIBLE); //
             Toast.makeText(FieldActivity.this, "Game over", Toast.LENGTH_SHORT).show();
             game_over=true;
+            if(score_number>=highScore_number)
+                getPlayerName();
         }
 
         return game_over;
+}
+    public void getPlayerName(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("You beat the highscore, write your name");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+        builder.setCancelable(false);
+
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                playerName = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
 }
 }

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("PREFS",0);
         highScore_number = preferences.getInt("BestScore",0);
         playerName = preferences.getString("PlayerName","");
-        result2.setText(playerName+" "+String.valueOf(highScore_number));
+        result2.setText(playerName+"  "+String.valueOf(highScore_number));
 
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -53,9 +53,9 @@
         android:id="@+id/resultTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/HighScoreTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="265dp"
+        android:layout_marginTop="40dp"
         android:text="g"
         android:textSize="36sp" />
 

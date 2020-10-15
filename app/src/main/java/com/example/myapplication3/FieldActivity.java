@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class FieldActivity extends AppCompatActivity {
-    int highScore_number; //ta wartosc jest nadpisywana i wyskakuje wartosc 0 w apce
+    int highScore_number; 
     int score_number;
     String playerName;
     @Override
@@ -148,38 +148,38 @@ public class FieldActivity extends AppCompatActivity {
     }
     public void moveRight(Button[] btn, Button  score_btn){
         for(int i=0;i<4;i++) {
-            move_line_right(btn,1,i);
-            move_line_right(btn,2,i);
-            move_line_right(btn,3,i);
-            move_line_right(btn,4,i);
+            moveLineRight(btn,1,i);
+            moveLineRight(btn,2,i);
+            moveLineRight(btn,3,i);
+            moveLineRight(btn,4,i);
         }
         sumNumbersRight(btn, score_btn);
     }
     public void moveLeft(Button[] btn, Button score_btn){
         for(int i=3;i>=0;i--) {
-            move_line_left(btn,1,i);
-            move_line_left(btn,2,i);
-            move_line_left(btn,3,i);
-            move_line_left(btn,4,i);
+            moveLineLeft(btn,1,i);
+            moveLineLeft(btn,2,i);
+            moveLineLeft(btn,3,i);
+            moveLineLeft(btn,4,i);
         }
         sumNumbersLeft(btn, score_btn);
     }
     public void moveUp(Button[] btn, Button score_btn){
 
         for (int i = 0; i < 4; i++) {
-            move_line_up(btn,1,i);
-            move_line_up(btn,2,i);
-            move_line_up(btn,3,i);
-            move_line_up(btn,4,i);
+            moveLineUp(btn,1,i);
+            moveLineUp(btn,2,i);
+            moveLineUp(btn,3,i);
+            moveLineUp(btn,4,i);
         }
         sumNumbersUp(btn,score_btn);
     }
     public void moveDown(Button[] btn, Button score_btn) {
         for (int i = 3; i >=0 ; i--) {
-            move_line_down(btn,1,i);
-            move_line_down(btn,2,i);
-            move_line_down(btn,3,i);
-            move_line_down(btn,4,i);
+            moveLineDown(btn,1,i);
+            moveLineDown(btn,2,i);
+            moveLineDown(btn,3,i);
+            moveLineDown(btn,4,i);
         }
         sumNumbersDown(btn, score_btn);
     }
@@ -189,16 +189,16 @@ public class FieldActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         highScore_number = sharedPref.getInt("HighScore_4", 0);
         bestBtn.setText(String.valueOf(highScore_number));
-        int rand_first_number = new Random().nextInt(16);
-        int rand_second_number = new Random().nextInt(16);
-        if(rand_first_number!=rand_second_number){
-        btn[rand_first_number].setText("2");
-        btn[rand_second_number].setText("2");
+        int randFirstNumber = new Random().nextInt(16);
+        int randSecondNumber = new Random().nextInt(16);
+        if(randFirstNumber!=randSecondNumber){
+        btn[randFirstNumber].setText("2");
+        btn[randSecondNumber].setText("2");
         }
         else{
-            rand_first_number=rand_first_number%2+1;
-            btn[rand_first_number].setText("2");
-            btn[rand_second_number].setText("2");
+            randFirstNumber=randFirstNumber%2+1;
+            btn[randFirstNumber].setText("2");
+            btn[randSecondNumber].setText("2");
         }
         changeBtnColor(btn);
     }
@@ -226,19 +226,19 @@ public class FieldActivity extends AppCompatActivity {
             btn[i].setText("");
         }
     }
-    public void move_line_left(Button[] btn,int line, int i){
+    public void moveLineLeft(Button[] btn,int line, int i){
         String tmp;
         if (btn[(line*4-1)-i].getText().toString()!=""&&i!=3){
             tmp=btn[(line*4-1)-i].getText().toString();
-            if(btn[(line*4-4)].getText().toString()=="") {
+            if(btn[(line*4-4)].getText().toString().equals("")) {
                 btn[(line*4-1)-i].setText("");
                 btn[(line*4-4)].setText(tmp);
             }
-            else if(btn[(line*4-3)].getText().toString()==""){
+            else if(btn[(line*4-3)].getText().toString().equals("")){
                 btn[(line*4-1) - i].setText("");
                 btn[(line*4-3)].setText(tmp);
             }
-            else if(btn[(line*4-2)].getText().toString()==""&&i!=2){
+            else if(btn[(line*4-2)].getText().toString().equals("")&&i!=2){
                 btn[(line*4-1) - i].setText("");
                 btn[(line*4-2)].setText(tmp);
             }
@@ -248,19 +248,19 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
     }
-    public void move_line_right(Button[] btn,int line, int i){
+    public void moveLineRight(Button[] btn,int line, int i){
         String tmp;
         if (btn[(line*4-1)-i].getText().toString()!=""&&i!=0){
             tmp=btn[(line*4-1)-i].getText().toString();
-            if(btn[(line*4-1)].getText().toString()=="") {
+            if(btn[(line*4-1)].getText().toString().equals("")) {
                 btn[(line*4-1)-i].setText("");
                 btn[(line*4-1)].setText(tmp);
             }
-            else if(btn[(line*4-2)].getText().toString()==""){
+            else if(btn[(line*4-2)].getText().toString().equals("")){
                btn[(line*4-1) - i].setText("");
                 btn[(line*4-2)].setText(tmp);
             }
-            else if(btn[(line*4-3)].getText().toString()==""&&i!=1){
+            else if(btn[(line*4-3)].getText().toString().equals("")&&i!=1){
                 btn[(line*4-1) - i].setText("");
                 btn[(line*4-3)].setText(tmp);
             }
@@ -270,20 +270,20 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
     }
-    public void move_line_up(Button[] btn, int column, int i){
+    public void moveLineUp(Button[] btn, int column, int i){
         String tmp;
         int col=column-1;
         if (btn[i*4+col].getText().toString()!=""&&i!=0){
             tmp=btn[i*4+col].getText().toString();
-            if(btn[0+col].getText().toString()=="") {
+            if(btn[0+col].getText().toString().equals("")) {
                 btn[i*4+col].setText("");
                 btn[col].setText(tmp);
             }
-            else if(btn[4+col].getText().toString()==""){
+            else if(btn[4+col].getText().toString().equals("")){
                 btn[i*4+col].setText("");
                 btn[col+4].setText(tmp);
             }
-            else if(btn[8+col].getText().toString()==""&i!=1){
+            else if(btn[8+col].getText().toString().equals("")&i!=1){
                 btn[i*4+col].setText("");
                 btn[col+8].setText(tmp);
             }
@@ -293,20 +293,20 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
     }
-    public void move_line_down(Button[] btn, int column, int i){
+    public void moveLineDown(Button[] btn, int column, int i){
         String tmp;
         int col=column-1;
         if (btn[i*4+col].getText().toString()!=""&&i!=3) {
             tmp = btn[i * 4 + col].getText().toString();
-            if(btn[12+col].getText().toString()=="") {
+            if(btn[12+col].getText().toString().equals("")) {
                 btn[i*4+col].setText("");
                 btn[col+12].setText(tmp);
             }
-            else if(btn[8+col].getText().toString()==""){
+            else if(btn[8+col].getText().toString().equals("")){
                 btn[i*4+col].setText("");
                 btn[col+8].setText(tmp);
             }
-            else if(btn[4+col].getText().toString()==""&&i!=2){
+            else if(btn[4+col].getText().toString().equals("")&&i!=2){
                 btn[i*4+col].setText("");
                 btn[col+4].setText(tmp);
             }
@@ -450,7 +450,9 @@ public class FieldActivity extends AppCompatActivity {
                     break;
                 case "2048":
                     tab[i].setBackgroundColor(Color.parseColor("#1e7955"));
+                    do{
                     Toast.makeText(FieldActivity.this, "Congratulation, you achieved 2048", Toast.LENGTH_SHORT).show();
+                    } while(highScore_number==-1);
                     break;
                 default:
                     tab[i].setBackground(new ColorDrawable(Color.LTGRAY));
@@ -469,7 +471,7 @@ public class FieldActivity extends AppCompatActivity {
     public boolean sameTabs(Button[] btn, String[] tempValTab){
         boolean same_tab=false;
         for (int i = 0; i < btn.length; i++) {
-            if(btn[i].getText().toString()==tempValTab[i]){
+            if(btn[i].getText().toString().equals(tempValTab[i])){
                 same_tab=true;
             }
             else
@@ -484,16 +486,16 @@ public class FieldActivity extends AppCompatActivity {
         boolean game_over=false;
         int control_number=0;
         for (int i = 0; i < 3; i++) {
-            if(tempValTab[i].equals("")||tempValTab[i]==tempValTab[i+1]){
+            if(tempValTab[i].equals("")||tempValTab[i].equals(tempValTab[i+1])){
                 control_number=0;
                 break;}
-            else if(tempValTab[i+4].equals("")||tempValTab[i+4]==tempValTab[i+5]){
+            else if(tempValTab[i+4].equals("")||tempValTab[i+4].equals(tempValTab[i+5])){
                 control_number=0;
                 break;}
-            else if(tempValTab[i+8].equals("")||tempValTab[i+8]==tempValTab[i+9]){
+            else if(tempValTab[i+8].equals("")||tempValTab[i+8].equals(tempValTab[i+9])){
                 control_number=0;
                 break;}
-            else if(tempValTab[i+12].equals("")||tempValTab[i+12]==tempValTab[i+13]){
+            else if(tempValTab[i+12].equals("")||tempValTab[i+12].equals(tempValTab[i+13])){
                 control_number=0;
                 break;}
             else if(tempValTab[3+4*i].equals("")||tempValTab[3+4*(i+1)].equals("")){
@@ -518,7 +520,7 @@ public class FieldActivity extends AppCompatActivity {
             }
         }
         if(control_number==3){
-            swipe.setVisibility(View.INVISIBLE); //
+            swipe.setVisibility(View.INVISIBLE);
             Toast.makeText(FieldActivity.this, "Game over", Toast.LENGTH_SHORT).show();
             game_over=true;
             if(score_number>=highScore_number)

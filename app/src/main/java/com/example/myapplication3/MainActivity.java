@@ -2,17 +2,15 @@ package com.example.myapplication3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
-    int highScore_number;
+    int highScoreNumber;
     String playerName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button gameButton = (Button) findViewById(R.id.game_button);
         TextView result2 = findViewById(R.id.resultTextView2);
-        SharedPreferences preferences = getSharedPreferences("PREFS",0);
-        highScore_number = preferences.getInt("BestScore",0);
-        playerName = preferences.getString("PlayerName","");
-        result2.setText(playerName+"  "+String.valueOf(highScore_number));
 
+        SharedPreferences preferences = getSharedPreferences("PREFS",0);
+        highScoreNumber = preferences.getInt("BestScore",0);
+        playerName = preferences.getString("PlayerName","");
+        result2.setText(playerName+"  "+String.valueOf(highScoreNumber));
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
